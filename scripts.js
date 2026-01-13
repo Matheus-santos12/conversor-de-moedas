@@ -1,7 +1,17 @@
+// Obtendo os elementos do formulário.
+const form = document.querySelector("form");
 const amount = document.getElementById("amount");
+const currency = document.getElementById("currency");
 
 // Manipulando o input para receber somente valor numérico.
 amount.addEventListener("input", () => {
   const hasCharactersRegex = /\D+/g;
   amount.value = amount.value.replace(hasCharactersRegex, "");
 });
+
+// Capturando o evento de submit(enviar) do formulário.
+form.onsubmit = () => {
+  event.preventDefault();
+
+  console.log(currency.value);
+};
