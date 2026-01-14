@@ -9,6 +9,8 @@ const KWD = 17.45;
 const form = document.querySelector("form");
 const amount = document.getElementById("amount");
 const currency = document.getElementById("currency");
+const footer = document.querySelector("main footer");
+const description = document.getElementById("description");
 
 // Manipulando o input para receber somente valor numérico.
 amount.addEventListener("input", () => {
@@ -17,7 +19,7 @@ amount.addEventListener("input", () => {
 });
 
 // Capturando o evento de submit(enviar) do formulário.
-form.onsubmit = () => {
+form.onsubmit = (event) => {
   event.preventDefault();
 
   switch (currency.value) {
@@ -31,15 +33,37 @@ form.onsubmit = () => {
       convertCurrency(amount.value, GBP, "£");
       break;
     case "PEN":
-      convertCurrency(amount.value, PEN, "S/");
+      convertCurrency(amount.value, PEN, "S");
       break;
     case "KWD":
-      convertCurrency(amount.value, KWD, "KD");
+      convertCurrency(amount.value, KWD, "KWD");
       break;
   }
 };
 
 // Função para converter a moeda.
 function convertCurrency(amount, price, symbol) {
-  console.log(amount, price, symbol);
+  try {
+    // Exibindo a cotação da moeda  selecionada.
+    description.textContent = `${symbol} 1 = ${price}`;
+
+    // Aplica a classe que exibe o footer para mostrar o resultado.
+    footer.classList.add("show-result");
+  } catch (error) {
+    // Remove a classe do footer removendo ele da tela.
+    footer.classList.remove("show-result");
+
+    console.log(error);
+    alert(
+      "Não foi possível realizar a conversão. Por favor, tente mais tarde."
+    );
+  }
+}
+
+function formatCurrencyBRL(value) {
+  // Converte para número para utilizar o toLocasString para formatar o padrão BRL.
+  return Number(value).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
 }
